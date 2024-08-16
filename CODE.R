@@ -14,10 +14,11 @@ library(readxl)
 envscreen <- read_excel("Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx")
 
 ################################################################################
-### Clean data
+### Clean data and 
 ################################################################################
 
 ################################################################################
-### Regressions and graphical representation
+### Regressions, summary stats, and graphical representation
 ################################################################################
+
 
