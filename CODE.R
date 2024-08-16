@@ -21,4 +21,4 @@ envscreen <- read_excel("Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx"
 ### Regressions, summary stats, and graphical representation
 ################################################################################
 
-
+'/Users/kieran/Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx'
