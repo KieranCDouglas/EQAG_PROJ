@@ -14,8 +14,9 @@ library(readxl)
 envscreen <- read_excel("Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx")
 
 ################################################################################
-### Clean data and 
+### Clean data and create sumary stats 
 ################################################################################
+unique(envscreen$`California County`)
 
 ################################################################################
 ### Regressions, summary stats, and graphical representation
