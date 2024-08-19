@@ -19,6 +19,8 @@ envscreen <- read_excel("Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx"
 # get rid of na values and convert should-be numeric values to numeric
 envclean <- na.omit(envscreen)
 envclean$Unemployment <- as.numeric(gsub("[^0-9.]", "", envclean$Unemployment))
+envclean$Education <- as.numeric(gsub("[^0-9.]", "", envclean$Education))
+envclean$`Housing Burden` <- as.numeric(gsub("[^0-9.]", "", envclean$`Housing Burden`))
 
 # how many obs from each county
 table(envclean$`California County`)
@@ -60,11 +62,19 @@ ggplot(data = envclean, mapping = aes(x = `Pollution Burden Score`, y = Unemploy
   geom_point() +
   geom_smooth(method = lm) +
   theme_classic()
-# pollution vurden score is highly correlated with unemployment (p<.001) but after controlling for County it is only correlated sometimes
+# pollution burden score is highly correlated with unemployment (p<.001) but after controlling for County it is only correlated sometimes
 # in particular counties there is a highly significant relationship whereas others have no relationship.
 
+# lets look at LA
+lamodel <- envclean %>% 
+  filter(`California County` == "Los Angeles") %>% 
+  lm(`Unemployment` ~ `Pollution Burden Score` +  `Poverty` + `Housing Burden` + `Pop. Char. Score` + `Education`, data = .)
+summary(lamodel)
 
-
+test <- envclean %>% 
+  filter(`California County` == "Los Angeles") %>% 
+  lm(`Unemployment` ~ `Pollution Burden Score` +  `Poverty` + `Housing Burden` + `Pop. Char. Score` + `Education`, data = .)
+summary(test)
 
 
 
