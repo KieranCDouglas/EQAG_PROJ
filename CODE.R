@@ -11,7 +11,9 @@ install.packages("readxl")
 library(tidyverse)
 library(readxl)
 
-envscreen <- read_excel("Downloads/CalEnviroScreen 40 Data Dictionary 2021.xlsx")
+dir.create(path = "data")
+
+envscreen <- read_excel('/Users/kieran/Documents/GitHub/EQAG_PROJ/data/CalEnviroScreen 40 Data Dictionary 2021.xlsx')
 
 ################################################################################
 ### Clean data and create sumary stats 
