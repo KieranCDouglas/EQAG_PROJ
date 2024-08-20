@@ -14,7 +14,7 @@ library(readxl)
 dir.create(path = "data")
 
 envscreen <- read_excel('/Users/kieran/Documents/GitHub/EQAG_PROJ/data/CalEnviroScreen 40 Data Dictionary 2021.xlsx')
-
+svi <- read_csv("data/California County SVI.csv")
 ################################################################################
 ### Clean data and create sumary stats 
 ################################################################################
