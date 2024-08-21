@@ -24,6 +24,14 @@ envclean$Unemployment <- as.numeric(gsub("[^0-9.]", "", envclean$Unemployment))
 envclean$Education <- as.numeric(gsub("[^0-9.]", "", envclean$Education))
 envclean$`Housing Burden` <- as.numeric(gsub("[^0-9.]", "", envclean$`Housing Burden`))
 
+# create a merged subset
+merged <- merge(envclean, svi, 
+                   by.x = "California County", by.y = "COUNTY", 
+                   all = TRUE)
+
+# create clean set only including complete cases
+envclean_partial <- envclean[complete.cases(envclean[, c("Education", "Housing Burden")]), ]
+
 # how many obs from each county
 table(envclean$`California County`)
 table(envclean$`Unemployment`)
@@ -78,10 +86,27 @@ test <- envclean %>%
   lm(`Unemployment` ~ `Pollution Burden Score` +  `Poverty` + `Housing Burden` + `Pop. Char. Score` + `Education`, data = .)
 summary(test)
 
+# core factors model
+# this presents a shitty model with a low R2. 
+corefactors <- lm(data = envclean_partial, `Unemployment` ~ `Ozone`+`PM2.5`+`Diesel PM`+`Traffic`+`Pesticides`+`Groundwater Threats`+`Haz. Waste`+`Education`+`Housing Burden`+`Poverty`)
+summary(corefactors)  
 
+pmmodel <- lm(data = envclean_partial, `Unemployment` ~ `PM2.5`)
+summary(pmmodel)
+#check for multicolinearity among included independent variables
+cor(envclean_partial[, c("Ozone", "PM2.5", "Diesel PM", "Traffic", "Pesticides", "Groundwater Threats", "Haz. Waste", "Education", "Housing Burden", "Poverty")])
 
-
-
-
+# there is not a ton of multicolinearity but some, suggesting that there are some variables whose effect on the outcome is mitigated by other variables inclusion
+# specifically between pm2.5 and ozone, pm2.5 and education housing burden and poverty, education poverty housing burden
+# try removing pm2.5 from model due to covariance
+gwmodel <- lm(data = envclean_partial, `Unemployment` ~ `Groundwater Threats`)
+summary(gwmodel)
+hazmodel <- lm(data = envclean_partial, `Unemployment` ~ `Haz. Waste`)
+summary(hazmodel)
+pestmodel <- lm(data = envclean_partial, `Unemployment` ~ `Pesticides`)
+summary(pestmodel)
+# remove groundwater, haz waste, and pesticides, not significant. 
+bigfactors <- lm(data = envclean_partial, `Unemployment` ~ `Ozone`+`PM2.5`+`Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`)
+summary(bigfactors)
 
 
