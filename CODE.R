@@ -257,3 +257,7 @@ summary(ozpm)
 #the means of these two variables are different **
 diff <- t.test(envclean_partial$Ozone, envclean_partial$PM2.5, paired = TRUE)
 print(diff)
+
+
+unempol <- lm(data = envclean, `Unemployment`~`Haz. Waste`+`Lead`+`PM2.5`+`Ozone`)
+summary(unempol)
