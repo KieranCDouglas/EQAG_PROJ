@@ -204,37 +204,37 @@ gtsave(gt_table, filename = "sumcounty_table.png", path = ".")
 
 ###################
 # core factors model
-corefactors <- lm(data = envclean_partial, `Unemployment` ~ `Ozone`+`PM2.5`+`Diesel PM`+`Traffic`+`Pesticides`+`Groundwater Threats`+`Haz. Waste`+`Education`+`Housing Burden`+`Poverty`)
+corefactors <- lm(data = envclean, `Unemployment` ~ `Ozone`+`PM2.5`+`Diesel PM`+`Traffic`+`Pesticides`+`Groundwater Threats`+`Haz. Waste`+`Education`+`Housing Burden`+`Poverty`)
 summary(corefactors)  
-pmmodel <- lm(data = envclean_partial, `Unemployment` ~ `PM2.5`)
+pmmodel <- lm(data = envclean, `Unemployment` ~ `PM2.5`)
 summary(pmmodel)
 
 #check for multicolinearity among included independent variables
-cor(envclean_partial[, c("Ozone", "PM2.5", "Diesel PM", "Traffic", "Pesticides", "Groundwater Threats", "Haz. Waste", "Education", "Housing Burden", "Poverty")])
+cor(envclean[, c("Ozone", "PM2.5", "Diesel PM", "Traffic", "Pesticides", "Groundwater Threats", "Haz. Waste", "Education", "Housing Burden", "Poverty")])
 
 # there is not a ton of multicolinearity but some, suggesting that there are some variables whose effect on the outcome is mitigated by other variables inclusion
 # specifically between pm2.5 and ozone, pm2.5 and education housing burden and poverty, education poverty housing burden
 
 # check importance of low correlation variables
-gwmodel <- lm(data = envclean_partial, `Unemployment` ~ `Groundwater Threats`)
+gwmodel <- lm(data = envclean, `Unemployment` ~ `Groundwater Threats`)
 summary(gwmodel)
-hazmodel <- lm(data = envclean_partial, `Unemployment` ~ `Haz. Waste`)
+hazmodel <- lm(data = envclean, `Unemployment` ~ `Haz. Waste`)
 summary(hazmodel)
-pestmodel <- lm(data = envclean_partial, `Unemployment` ~ `Pesticides`)
+pestmodel <- lm(data = envclean, `Unemployment` ~ `Pesticides`)
 summary(pestmodel)
 
 # remove groundwater, haz waste, and pesticides, not significant. Use Ozone for both Ozone and PM2.5 
-bigfactors <- lm(data = envclean_partial, `Unemployment` ~ `Ozone`+`Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`)
+bigfactors <- lm(data = envclean, `Unemployment` ~ `Ozone`+`Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`)
 summary(bigfactors)
 
 #Traffic and ozone are highly correlated, traffic emissions create NO2 which breaks down ozone hence the negative association
-trafoz <- lm(data = envclean_partial, `Ozone` ~ `Traffic`)
+trafoz <- lm(data = envclean, `Ozone` ~ `Traffic`)
 summary(trafoz)
 ## Test for interchangability between Ozone and PM2.5 concentrations
 # looks like Ozone and PM2.5 are highly correlated and interchangible in our model. Because of this we will only include Ozone in the big model
-bigfactorsnoZ <- lm(data = envclean_partial, `Unemployment` ~ `Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`+`PM2.5`)
+bigfactorsnoZ <- lm(data = envclean, `Unemployment` ~ `Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`+`PM2.5`)
 summary(bigfactorsnoZ)
-bigfactorsnoPM <- lm(data = envclean_partial, `Unemployment` ~ `Ozone`+`Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`)
+bigfactorsnoPM <- lm(data = envclean, `Unemployment` ~ `Ozone`+`Diesel PM`+`Traffic`+`Education`+`Housing Burden`+`Poverty`)
 summary(bigfactorsnoPM)
 #check for nonlinear relationships, looks fine
 ggplot(data = envclean, mapping = aes(x=PM2.5,y=Unemployment)) +
